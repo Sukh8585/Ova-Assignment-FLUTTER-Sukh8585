@@ -36,6 +36,7 @@ try {
     User = await User.save();
 
     res.json(User);
+    console.log(User);
     
   } catch (e) {
     res.status(500).json({ error: e.message });

@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const authRouter = require('./routes/auth');
-
+const findUserrouter = require('./routes/find_user')
 //KFnquce0q1e4yz3A
 
 const port =  process.env.port|| 3000; 
@@ -10,6 +10,8 @@ const app = express();
 
 app.use(express.json()); 
 app.use(authRouter);
+app.use(findUserrouter);
+
 mongoose.connect(db)
 .then(()=>{
 console.log('connect success!!');

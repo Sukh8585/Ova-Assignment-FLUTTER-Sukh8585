@@ -18,13 +18,17 @@ class AuthServices {
       required String password,
       required BuildContext context}) async {
     User user = User(
+        id: '',
         username: username,
         email: email,
         displayName: username,
         token: '',
         profilePicture: '',
-        password: password);
-    print(user.toJson());
+        password: password,
+        friendList: [],
+        friendrequests: [],
+        sentrequests: []);
+
     http.Response res = await http.post(Uri.parse('$uri/api/sign'),
         headers: <String, String>{
           "content-type": 'application/json; charset=UTF-8',
@@ -43,13 +47,13 @@ class AuthServices {
       required String email,
       required String password,
       required BuildContext context}) async {
-    print(jsonEncode({"email": email, "password": password}));
+    //print(jsonEncode({"email": email, "password": password}));
     http.Response res = await http.post(Uri.parse('$uri/api/login'),
         headers: <String, String>{
           "content-type": 'application/json; charset=UTF-8',
         },
         body: jsonEncode({"email": email, "password": password}));
-    print(jsonDecode(res.body));
+
     httpErrorHandel(
         response: res,
         context: context,
@@ -69,6 +73,8 @@ class AuthServices {
     try {
       SharedPreferences pref = await SharedPreferences.getInstance();
       String? token = pref.getString("x-auth-token");
+      // String token = '';
+
       if (token == null) {
         pref.setString('x-auth-token', "");
       }
@@ -86,6 +92,7 @@ class AuthServices {
             });
 
         var userProvider = Provider.of<UserProvider>(context, listen: false);
+
         userProvider.setuser(userres.body);
       }
     } catch (e) {

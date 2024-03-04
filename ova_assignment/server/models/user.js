@@ -6,17 +6,32 @@ senderId: {
     ref: 'User',
     required: true,
 },
-status: {
-    type: String,
-    enum: ['pending', 'accepted', 'rejected'],
-    default: 'pending',
-},
 sentAt: {
     type: Date,
     default: Date.now,
 },
-respondedAt: Date,
+status: {
+    type: String,
+    enum:['pending' , 'accepted' , 'rejected'],
+    default:'pending'
+}
 });
+const SentrequestsSchema = new mongoose.Schema({ 
+    requestedUserId: {
+        type : mongoose.Schema.Types.ObjectId , 
+        ref : 'User',
+        required: true
+    },
+    sentAt:{
+        type: Date,
+        default : Date.now
+    },
+    status: {
+        type : String,
+        enum:['pending' , 'accepted' , 'rejected'],
+        default:'pending'
+    }
+})
 
 const userSchema = new mongoose.Schema({
 username: {
@@ -40,11 +55,12 @@ email : {
     require: true
 },
   profilePicture: String, // URL to the image
-// friendsList: [{
-//     type: mongoose.Schema.Types.ObjectId,
-//     ref: 'User',
-// }],
-// friendRequests: [friendRequestSchema],
+friendsList: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+}],
+friendRequests: [friendRequestSchema],
+sendRequests:[SentrequestsSchema]
 }, { timestamps: true });
 
 const user = mongoose.model('user', userSchema);

@@ -4,6 +4,7 @@ import 'package:ova_assignment/auth/services/auth_services.dart';
 import 'package:ova_assignment/models/user_model.dart';
 import 'package:ova_assignment/providers/user_provider.dart';
 import 'package:ova_assignment/user/screens/user_homescreen.dart';
+import 'package:ova_assignment/user/widgets/bottom_bar.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -37,7 +38,7 @@ class _MyAppState extends State<MyApp> {
         useMaterial3: true,
       ),
       home: Provider.of<UserProvider>(context).user.token.isNotEmpty
-          ? HomeScreen()
+          ? BottomBar()
           : AuthScreen(),
     );
   }
