@@ -40,4 +40,31 @@ findUserrouter.post('/api/send-request' , auth , async (req , res) => {
     }
 } )
 
+findUserrouter.post('/api/cancel-request' , auth , async (req , res) => {
+    try {
+       
+        const {sendto } = req.body ; 
+        if(sendto == req.user){
+          return  res.status(500).json({message : "eroor"});
+            
+        }
+        const recieverId = await user.findByIdAndUpdate( sendto , {$pull: {
+            friendRequests:{
+                senderId: req.user
+            }
+        }},{new : true});
+        
+        const User = await user.findByIdAndUpdate( req.user , {$pull: {
+            sendRequests:{
+                requestedUserId: recieverId
+            }
+        }},{new : true});
+    
+        res.json(User);
+    } catch (error) {
+        res.statusCode(500).json({message : error});
+    }
+} )
+
+
 module.exports = findUserrouter;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ova_assignment/searchUsers/screens/search_users.dart';
+import 'package:ova_assignment/user/screens/request_screen.dart';
 import 'package:ova_assignment/user/screens/user_homescreen.dart';
 
 class BottomBar extends StatefulWidget {
@@ -17,15 +18,17 @@ class _BottomBarState extends State<BottomBar> {
     });
   }
 
-  List<Widget> pages = [
-    HomeScreen(),
-    Center(child: Text('2nd page')),
-    Center(child: Text('3rd page')),
-  ];
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> pages = [
+      HomeScreen(),
+      Center(child: Text('2nd page')),
+      RequestScreen(
+        context: context,
+      ),
+    ];
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(

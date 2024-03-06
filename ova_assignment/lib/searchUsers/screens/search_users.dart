@@ -21,7 +21,7 @@ class _SearchUsersState extends State<SearchUsers> {
   bool isfollowing = false;
   @override
   Widget build(BuildContext context) {
-    User _user = Provider.of<UserProvider>(context, listen: false).user;
+    User _user = Provider.of<UserProvider>(context, listen: true).user;
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -92,12 +92,16 @@ class _SearchUsersState extends State<SearchUsers> {
                                             : Colors.blue)),
                                 onPressed: () async {
                                   //! create the api for unfollowing the user and also canceling a request
-                                  // !_user.sentrequests!.any((element) =>
-                                  //               element['requestedUserId'] ==
-                                  //               userList![index].id) ?
-                                  //               await SearchServices()
-                                  //     .isrequested(context, userList![index].id);
-                                  //      :
+
+                                  _user.sentrequests!.any((element) =>
+                                          element['requestedUserId'] ==
+                                          userList![index].id)
+                                      ? await SearchServices().cancelrequest(
+                                          context, userList![index].id)
+                                      : await SearchServices().sendrequested(
+                                          context, userList![index].id);
+
+                                  setState(() {});
                                 },
                                 child: _user.sentrequests!.any((element) =>
                                         element['requestedUserId'] ==

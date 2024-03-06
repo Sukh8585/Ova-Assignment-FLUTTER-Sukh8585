@@ -54,7 +54,7 @@ class User {
         password: map['password'] ?? '',
         friendList: map['friendlist'] != null
             ? List<User>.from(map['friendlist']?.map((x) => User.fromMap(x)))
-            : null,
+            : [],
         friendrequests: List<Map<String, dynamic>>.from(
             map['friendRequests']?.map((x) => Map<String, dynamic>.from(x))),
         sentrequests: List<Map<String, dynamic>>.from(

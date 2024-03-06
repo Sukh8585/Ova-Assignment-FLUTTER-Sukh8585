@@ -33,7 +33,7 @@ class SearchServices {
     return friends;
   }
 
-  Future<bool> isrequested(BuildContext context, String id) async {
+  Future<bool> sendrequested(BuildContext context, String id) async {
     User user = Provider.of<UserProvider>(context, listen: false).user;
     try {
       //! send the http request to send request to the user
@@ -45,7 +45,29 @@ class SearchServices {
           },
           body: jsonEncode({'sendto': id}));
 
+      UserProvider provider = Provider.of<UserProvider>(context, listen: false);
+      provider.setuser(res.body);
       print(jsonDecode(res.body));
+    } catch (e) {
+      print(e);
+    }
+    return true;
+  }
+
+  Future<bool> cancelrequest(BuildContext context, String id) async {
+    User user = Provider.of<UserProvider>(context, listen: false).user;
+    try {
+      //! send the http request to send request to the user
+      // Todo : get the res ponse in usermodel add lists for friendrequests and sentrequests parse through it and save it return a bool of request sent
+      http.Response res = await http.post(Uri.parse('$uri/api/cancel-request'),
+          headers: {
+            'content-type': 'application/json; charset=UTF-8',
+            'x-auth-token': user.token
+          },
+          body: jsonEncode({'sendto': id}));
+
+      UserProvider provider = Provider.of<UserProvider>(context, listen: false);
+      provider.setuser(res.body);
     } catch (e) {
       print(e);
     }
